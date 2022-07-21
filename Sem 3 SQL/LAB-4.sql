@@ -219,7 +219,20 @@
 		EXEC PR_DESIGNATION_SELECTPK 11
 --4. Create Procedure that takes Department Name & Designation Name as Input and Returns a 
 --table with Worker’s First Name, Salary, Joining Date & Department Name.
-	
+	ALTER PROC PR_PERSON_RETURNTABLE
+		@DEPARTMENTNAME		VARCHAR(100),
+		@DESIGNATIONNAME	VARCHAR(100)
+	AS
+	BEGIN
+		SELECT P.FIRSTNAME,P.SALARY,P.JOININGDATE,D.DEPARTMENTNAME
+		FROM PERSON P LEFT OUTER JOIN DEPARTMENT D
+		ON P.DEPARTMENTID=D.DEPARTMENTID 
+		LEFT OUTER JOIN DESIGNATION DE
+		ON P.DESIGNATIONID=DE.DESIGNATIONID
+		WHERE D.DEPARTMENTNAME=@DEPARTMENTNAME AND DE.DESIGNATIONNAME=@DESIGNATIONNAME
+	END
+
+	EXEC PR_PERSON_RETURNTABLE 'ADMIN1','WELDER'
 --5. Create Procedure that takes FirstName as an input parameter and displays’ all the details of 
 --the worker with their department & designation name.
 
